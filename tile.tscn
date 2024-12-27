@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://bijuhwnmyf76e"]
+
+[ext_resource type="Script" path="res://tile.gd" id="1_l14uk"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_dwojl"]
+load_path = "res://.godot/imported/unitTile.png-1cdea4b6dd11116e3b593d6950d96183.ctex"
+
+[node name="Tile" type="Node2D"]
+position = Vector2(862, 451)
+scale = Vector2(10, 10)
+script = ExtResource("1_l14uk")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("CompressedTexture2D_dwojl")
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(0, -0.1)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
+polygon = PackedVector2Array(-7.6, -3.4, 0, -7.4, 7.4, -3.5, 0.1, 0.4)
+
+[connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="Area2D" to="." method="_on_area_2d_mouse_exited"]
