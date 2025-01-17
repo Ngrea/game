@@ -6,11 +6,12 @@
 load_path = "res://.godot/imported/unitTile.png-1cdea4b6dd11116e3b593d6950d96183.ctex"
 
 [node name="Tile" type="Node2D"]
-position = Vector2(862, 451)
+position = Vector2(-1001, -1156)
 scale = Vector2(10, 10)
 script = ExtResource("1_l14uk")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-0.0999985, 0)
 texture = SubResource("CompressedTexture2D_dwojl")
 
 [node name="Area2D" type="Area2D" parent="."]
