@@ -12,6 +12,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 
 	if LastSelectedUnit.lastSelectedUnit != lastUnit:
+
 		lastUnit = LastSelectedUnit.lastSelectedUnit
 		if LastSelectedUnit.lastSelectedUnit:
 			#print(LastSelectedUnit.lastSelectedUnit)
@@ -19,10 +20,12 @@ func _process(delta: float) -> void:
 			var adjacent = $map.findAdjacent(LastSelectedUnit.lastSelectedUnit.tile)
 			for tile in adjacent:
 				if tile is not int:
-					tile.get_node("Sprite2D").modulate=Color(255,0,0)
+					#tile.get_node("Sprite2D").modulate=Color(255,0,0)
+					pass
+			$map.waiting = true
 			var newTile = await $map.selectTile()
 			if newTile in adjacent:
 				LastSelectedUnit.lastSelectedUnit.tile= newTile
-			
+			$map.waiting = false
 			LastSelectedUnit.lastSelectedUnit = null
 	

@@ -145,6 +145,13 @@ func _ready() -> void:
 				if animate:
 					await get_tree().process_frame
 
+	######Init starting units
+	var tile = tileMap[random.randf_range(0,size-1)][random.randi_range(0,size-1)]
+	var unit = unitScene.instantiate()
+	unit.tile=tile
+	add_child(unit)
+	units.append(unit)
+	
 	generated = true		
 func findAdjacent(tile):
 	#Finds tiles adjacent to the input tile
@@ -247,34 +254,35 @@ func _on_test_pressed() -> void:
 	#for x in findAdjacent(tile):
 	#	x.position.y += 20
 	#	await get_tree().create_timer(1.0).timeout
-	waiting = false
+	
 	var unit = unitScene.instantiate()
 	unit.tile=tile
 	add_child(unit)
 	units.append(unit)
 	
 
-func _process(delta: float) -> void:
-	if generated:
-		for unit in units:
-			if not unit.select:
-				#print(waiting)
-				for row in tileMap:
-					for tile in row:
-						tile.position.y = tile.isoY
-						if tile.highlight == true:
-							$label.text = debugString % [seed,tile.cartX,tile.cartY,tile.altitude,tile.biomeValue]
-						if tile.select == true and not(waiting):
-							for biomeGroup in biomeMap:
-								if biomeGroup[0] == tile.biomeValue:
-									for target in biomeGroup:
-										if target is not float:
-											if target.altitude >75:
-												target.position.y = target.isoY - 20
-									return
-			
-						else:
-							tile.position.y = tile.isoY
+#func _process(delta: float) -> void:
+	#if generated:
+	#	print(waiting)
+	#	for unit in units:
+	#		if not unit.select:
+	#			#print(waiting)
+	#			for row in tileMap:
+	#				for tile in row:
+	#					tile.position.y = tile.isoY
+	#					if tile.highlight == true:
+	#						$label.text = debugString % [seed,tile.cartX,tile.cartY,tile.altitude,tile.biomeValue]
+	#					if tile.select == true and not(waiting):
+	#						for biomeGroup in biomeMap:
+	#							if biomeGroup[0] == tile.biomeValue:
+	#								for target in biomeGroup:
+	#									if target is not float:
+	#										if target.altitude >75:
+	#											target.position.y = target.isoY - 20
+	##								return
+	#		
+	#					else:
+	#						tile.position.y = tile.isoY
 #OLD^#^^^
 	
 	
