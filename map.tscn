@@ -23,8 +23,8 @@ theme_override_font_sizes/normal_font_size = 18
 [node name="testButton" type="Button" parent="map"]
 offset_left = -1191.0
 offset_top = -354.0
-offset_right = -1017.0
-offset_bottom = -323.0
+offset_right = -802.0
+offset_bottom = -182.0
 text = "HII"
 
 [connection signal="pressed" from="map/testButton" to="map" method="_on_test_pressed"]

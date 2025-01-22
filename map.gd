@@ -27,7 +27,7 @@ var down = load("res://sprites/greentileDownBorder.png")
 var left = load("res://sprites/greenTileLeftBorder.png")
 var right= load("res://sprites/greenTileRightBorder.png")
 var generated = false
-var animate = false
+var animate = true
 var units=[]
 var waiting = false
 func getBiome(i,j,save) -> float:
@@ -143,8 +143,8 @@ func _ready() -> void:
 				elif isBorder(adjacent[6],biome):
 						tile.get_node("Sprite2D").texture = load("res://sprites/greenTileLeftBorder.png")
 				if animate:
-					await get_tree().process_frame
-
+					#await get_tree().process_frame
+					pass
 	######Init starting units
 	var tile = tileMap[random.randf_range(0,size-1)][random.randi_range(0,size-1)]
 	var unit = unitScene.instantiate()
