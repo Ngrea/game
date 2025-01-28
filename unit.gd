@@ -4,7 +4,7 @@ var highlight
 var select
 var X
 var Y
-
+var player
 func _ready() -> void:
 	position.x = tile.position.x
 	position.y = tile.position.y - 48
@@ -17,7 +17,7 @@ func _on_area_2d_mouse_exited() -> void:
 	highlight = false
 
 func _input(event: InputEvent) -> void: 
-	if event.is_action_released("click") and highlight == true:
+	if event.is_action_released("click") and highlight == true and Turn.turn == player:
 		select = true
 		$Sprite2D.modulate=Color(0,255,0)
 		LastSelectedUnit.lastSelectedUnit = self

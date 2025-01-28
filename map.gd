@@ -27,9 +27,10 @@ var down = load("res://sprites/greentileDownBorder.png")
 var left = load("res://sprites/greenTileLeftBorder.png")
 var right= load("res://sprites/greenTileRightBorder.png")
 var generated = false
-var animate = true
+var animate = false
 var units=[]
 var waiting = false
+var turnUI
 func getBiome(i,j,save) -> float:
 	biomeNoise.seed = seed
 	biomeNoise.frequency=0.007
@@ -152,6 +153,10 @@ func _ready() -> void:
 	add_child(unit)
 	units.append(unit)
 	
+	
+	####UI ELEMENTS
+	turnUI = (load("res://turn_handler.tscn")).instantiate()
+	add_child(turnUI)
 	generated = true		
 func findAdjacent(tile):
 	#Finds tiles adjacent to the input tile
@@ -257,6 +262,7 @@ func _on_test_pressed() -> void:
 	
 	var unit = unitScene.instantiate()
 	unit.tile=tile
+	unit.player = Turn.turn
 	add_child(unit)
 	units.append(unit)
 	

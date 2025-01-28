@@ -49,5 +49,4 @@ func _input(event: InputEvent) -> void:
 			select = true
 		else:
 			select = false	
-
 	

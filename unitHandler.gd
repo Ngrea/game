@@ -14,7 +14,7 @@ func _process(delta: float) -> void:
 	if LastSelectedUnit.lastSelectedUnit != lastUnit:
 
 		lastUnit = LastSelectedUnit.lastSelectedUnit
-		if LastSelectedUnit.lastSelectedUnit:
+		if LastSelectedUnit.lastSelectedUnit and LastSelectedUnit.lastSelectedUnit.player == Turn.turn:
 			#print(LastSelectedUnit.lastSelectedUnit)
 			#print($map.findAdjacent(LastSelectedUnit.lastSelectedUnit.tile))
 			var adjacent = $map.findAdjacent(LastSelectedUnit.lastSelectedUnit.tile)
