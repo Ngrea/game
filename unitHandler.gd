@@ -26,6 +26,7 @@ func _process(delta: float) -> void:
 			var newTile = await $map.selectTile()
 			if newTile in adjacent:
 				LastSelectedUnit.lastSelectedUnit.tile= newTile
+				newTile.unit = LastSelectedUnit.lastSelectedUnit
 			$map.waiting = false
 			LastSelectedUnit.lastSelectedUnit = null
 	

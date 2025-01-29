@@ -12,7 +12,7 @@ var water = load("res://sprites/waterTile.png")
 var land = load("res://sprites/grassTile.png")
 var select
 var biomeDebug = true
-var unit
+var units = []
 func start(inputX,inputY,altitude,biome) -> float:
 	cartX = inputX
 	cartY = inputY
@@ -50,3 +50,37 @@ func _input(event: InputEvent) -> void:
 		else:
 			select = false	
 	
+func addUnit(unit):
+	units.append(unit)
+	var player = unit.player
+	if len(units) == 1:
+		unit.location = "center"
+		unit.level = 1
+	
+	var contestants = []
+	for item in units:
+		if item.player not in contestants:
+			contestants.append(unit.player)
+	
+
+	if len(contestants) == 1:
+		unit.location = "center"
+		unit.level = len(units)
+	elif len(contestants) == 2:
+		for item in units:
+			if item.player == contestants[1]:
+				item.location = "left"
+				item.level = len(units)
+			elif item.player == contestants[2]:
+				item.location = "right"
+				item.location == len(units)
+	elif len(contestants) == 3:
+		for item in units:
+			if item.player == contestants[1]:
+				item.location = "topLeft"
+				item.level = len(units)
+			elif item.player == contestants[2]:
+				item.location = "topRight"
+				item.location == len(units)	
+		#	elif item.player == contestants
+		

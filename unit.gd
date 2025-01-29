@@ -5,6 +5,8 @@ var select
 var X
 var Y
 var player
+var location
+var level
 func _ready() -> void:
 	position.x = tile.position.x
 	position.y = tile.position.y - 48

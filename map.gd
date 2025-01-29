@@ -271,7 +271,7 @@ func _on_test_pressed() -> void:
 
 func _process(delta: float) -> void:
 	if generated:
-		print(waiting)
+		#print(waiting)
 		for unit in units:
 			if not unit.select:
 				#print(waiting)

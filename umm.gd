@@ -1,7 +1,7 @@
 extends Node2D
 var game = load("res://map.tscn")
 var newGame = game.instantiate()
-
+var test = [1,2,3,4,5]
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass
@@ -13,9 +13,9 @@ func _process(delta: float) -> void:
 
 
 func _on_button_pressed() -> void:
-	newGame.queue_free()
-	game = load("res://map.tscn")
-	newGame = game.instantiate()
-	add_child(newGame)
-	
+	#newGame.queue_free()
+	#game = load("res://map.tscn")
+	#newGame = game.instantiate()
+	#add_child(newGame)
+	print(len(test))
 	
