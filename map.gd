@@ -6,7 +6,7 @@ var biomeNoise = FastNoiseLite.new()
 var tileMap = []
 var seed = random.randi_range(1,1000000)
 var debugString = "Seed: %s \nPos: %s , %s \nAltitude: %s \nBiome: %s "
-var size = 50
+var size = 30
 var biomeMap = []
 var tileScene = load("res://tile.tscn")
 var testUnit
@@ -224,7 +224,7 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_released("scrollUp"):
 		$Camera2D.zoom.x += 0.01
 		$Camera2D.zoom.y += 0.01
-	if event.is_action_released("scrollDown"):
+	if event.is_action_released("scrollDown") and $Camera2D.zoom.x >0.1:
 		$Camera2D.zoom.x -= 0.01
 		$Camera2D.zoom.y -= 0.01
 		
@@ -234,13 +234,13 @@ func _input(event: InputEvent) -> void:
 #Camera move func
 func _physics_process(delta):
 	if Input.is_action_pressed("W"):
-		$Camera2D.position.y -= 300 * delta
+		$Camera2D.position.y -= 500 * delta
 	if Input.is_action_pressed("A"):
-		$Camera2D.position.x -= 300 * delta
+		$Camera2D.position.x -= 500 * delta
 	if Input.is_action_pressed("S"):
-		$Camera2D.position.y += 300 * delta
+		$Camera2D.position.y += 500 * delta
 	if Input.is_action_pressed("D"):
-		$Camera2D.position.x += 300 * delta
+		$Camera2D.position.x += 500 * delta
 
 #Gets the identifier for the next tile clicked on
 func selectTile():
@@ -271,17 +271,17 @@ func _on_test_pressed() -> void:
 
 #func _process(delta: float) -> void:
 #	if generated:
-		#print(waiting)
+#	#print(waiting)
 #		for unit in units:
 #			if not unit.select:
-##				#print(waiting)
-##				for row in tileMap:
+#				#print(waiting)
+#				for row in tileMap:
 #					for tile in row:
-##						tile.position.y = tile.isoY
-##						if tile.highlight == true:
-#	#						$label.text = debugString % [seed,tile.cartX,tile.cartY,tile.altitude,tile.biomeValue]
-#	##					if tile.select == true and not(waiting):
-###							for biomeGroup in biomeMap:
+#						tile.position.y = tile.isoY
+#						if tile.highlight == true:
+#							$label.text = debugString % [seed,tile.cartX,tile.cartY,tile.altitude,tile.biomeValue]
+#						if tile.select == true and not(waiting):
+#							for biomeGroup in biomeMap:
 #								if biomeGroup[0] == tile.biomeValue:
 #									for target in biomeGroup:
 #										if target is not float:

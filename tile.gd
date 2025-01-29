@@ -58,7 +58,7 @@ func _input(event: InputEvent) -> void:
 			select = false	
 	
 func addUnit(unit):
-	units[PlayerCount.playerCount-1].append(unit)
+	units[Turn.turn].append(unit)
 	var contestants =[]
 	var j = 0
 	for row in units:
@@ -81,6 +81,28 @@ func addUnit(unit):
 				if j == 2:
 					unit.location = "centerBottom"
 					unit.level = i
-			
-			
+			if len(contestants)==3:
+				if j == 1:
+					unit.location = "topLeft"
+					unit.level = i
+				if j == 2:
+					unit.location = "topRight"
+					unit.level = i
+				if j == 3:
+					unit.location = "centerBottom"
+					unit.level = i
+			if len(contestants)==4:
+				if j == 1:
+					unit.location = "topLeft"
+					unit.level = i
+				if j == 2:
+					unit.location = "topRight"
+					unit.level = i
+				if j == 3:
+					unit.location = "bottomLeft"
+					unit.level = i
+				if j == 4:
+					unit.location ="bottomRight"
+					unit.level = i
+	unit.tile=self
 			
