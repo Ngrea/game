@@ -1,20 +1,22 @@
 [gd_scene load_steps=3 format=3 uid="uid://dm5qidi11c4ow"]
 
 [ext_resource type="Script" path="res://unit.gd" id="1_6niav"]
-[ext_resource type="Texture2D" uid="uid://cyfs12dbxtknl" path="res://sprites/blob.png" id="1_66t5u"]
+[ext_resource type="Texture2D" uid="uid://bbuvalwwdrjob" path="res://sprites/p1Unit.png" id="2_a3fno"]
 
 [node name="Unit" type="Node2D"]
 position = Vector2(647, 288)
 script = ExtResource("1_6niav")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(10, 10)
-texture = ExtResource("1_66t5u")
+scale = Vector2(2.5, 2.5)
+texture = ExtResource("2_a3fno")
 
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
-polygon = PackedVector2Array(-40, 21, -40, -20, -32, -20, -31, -30, -12, -30, -12, -40, 19, -41, 21, -35, 40, -30, 42, 20, 31, 21, 31, 32, 11, 31, 11, 41, -10, 41, -11, 30, -30, 30, -30, 19)
+position = Vector2(-2.00003, 3.00001)
+scale = Vector2(0.565168, 0.262195)
+polygon = PackedVector2Array(-1.76941, -41.9535, -1.76941, -30.5117, -10.6163, -30.5117, -10.6163, -22.8838, -19.4633, -22.8838, -19.4633, -11.4419, -23.0021, -11.4419, -23.0021, 26.6976, -19.4633, 26.6976, -19.4633, 38.1395, -10.6163, 38.1395, -10.6163, 45.7675, -1.76941, 45.7675, -1.76941, 57.2092, 8.84692, 57.2092, 8.84692, 45.7675, 17.6938, 45.7675, 17.6938, 38.1395, 26.5408, 38.1395, 26.5408, 26.6976, 30.0796, 26.6976, 30.0796, -11.4419, 26.5408, -11.4419, 26.5408, -22.8838, 17.6938, -22.8838, 17.6938, -30.5117, 8.84692, -30.5117, 8.84692, -41.9535)
 
 [connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
 [connection signal="mouse_exited" from="Area2D" to="." method="_on_area_2d_mouse_exited"]

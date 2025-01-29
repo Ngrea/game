@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bgioqb82pgt71"
-path="res://.godot/imported/greentileNotRight.png-690e9cf3fba10ee734b37c4bc716f988.ctex"
+uid="uid://pcttx5g37ql1"
+path="res://.godot/imported/grassTileDownRightBorder.png-5f24624f4400e941e02618216b917a2a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/greentileNotRight.png"
-dest_files=["res://.godot/imported/greentileNotRight.png-690e9cf3fba10ee734b37c4bc716f988.ctex"]
+source_file="res://sprites/grassTileDownRightBorder.png"
+dest_files=["res://.godot/imported/grassTileDownRightBorder.png-5f24624f4400e941e02618216b917a2a.ctex"]
 
 [params]
 

@@ -31,6 +31,7 @@ var animate = false
 var units=[]
 var waiting = false
 var turnUI
+var border = true
 func getBiome(i,j,save) -> float:
 	biomeNoise.seed = seed
 	biomeNoise.frequency=0.007
@@ -45,7 +46,7 @@ func getBiome(i,j,save) -> float:
 		img = biomeNoise.get_image(340,340)
 		img.save_png("noise.png")
 		print("saved")
-	return abs(biomeNoise.get_noise_2d(i*7,j*7) *100)
+	return abs(biomeNoise.get_noise_2d(i*10,j*10) *100)
 
 
 
@@ -97,55 +98,56 @@ func _ready() -> void:
 							biomeMap[count].append(checkTile)
 				count+=1
  			#print(biomeMap)
-	for row in tileMap:
-		for tile in row:
-			if tile.altitude >= 75:
-				var biome = tile.biomeValue
-				var adjacent = findAdjacent(tile)
-
-				
-				#full border (just in case)
-				if isBorder(([adjacent[0],adjacent[2],adjacent[4],adjacent[6]]),biome):
-					tile.get_node("Sprite2D").texture = load("res://sprites/greentileAllBordert.png")
-				#threes
-				elif isBorder(([adjacent[0],adjacent[2],adjacent[4]]),biome):
-					tile.get_node("Sprite2D").texture = load("res://sprites/greentileNotLeft.png")
-				elif isBorder(([adjacent[2],adjacent[4],adjacent[6]]),biome):
-					tile.get_node("Sprite2D").texture = load("res://sprites/greentileNotDown.png")
-				elif isBorder(([adjacent[4],adjacent[6],adjacent[0]]),biome):
-					tile.get_node("Sprite2D").texture = load("res://sprites/greentileNotRight.png")
-				elif isBorder(([adjacent[6],adjacent[0],adjacent[2]]),biome):
-					tile.get_node("Sprite2D").texture = load("res://sprites/greentileNotUp.png")
-				#twos
-				elif isBorder(([adjacent[0],adjacent[2]]),biome):
-					tile.get_node("Sprite2D").texture = load("res://sprites/greentileDownRightBorder.png")
-				elif isBorder(([adjacent[2],adjacent[4]]),biome):
-					tile.get_node("Sprite2D").texture = load("res://sprites/greentileUpLeftBorder.png")
-				elif isBorder(([adjacent[4],adjacent[6]]),biome):
-					tile.get_node("Sprite2D").texture = load("res://sprites/greentileUpRightBorder.png")
-				elif isBorder(([adjacent[6],adjacent[0]]),biome):
-					tile.get_node("Sprite2D").texture = load("res://sprites/greentileDownLeftBorder.png")
-				elif isBorder(([adjacent[0],adjacent[4]]),biome):
-					tile.get_node("Sprite2D").texture = load("res://sprites/greentileUpDownBorder.png")
-				elif isBorder(([adjacent[2],adjacent[6]]),biome):
-					tile.get_node("Sprite2D").texture = load("res://sprites/greentileRightLeftBorder.png")
+	if border:
+		for row in tileMap:
+			for tile in row:
+				if tile.altitude >= 75:
+					var biome = tile.biomeValue
+					var adjacent = findAdjacent(tile)
 	
-				#ones
-				elif isBorder(adjacent[4],biome):
-						tile.get_node("Sprite2D").texture = load("res://sprites/greenTileUpBorder.png")
-
-				elif isBorder(adjacent[2],biome):
-						tile.get_node("Sprite2D").texture = load("res://sprites/greenTileRightBorder.png")
-
-
-				elif isBorder(adjacent[0],biome):
-						tile.get_node("Sprite2D").texture = load("res://sprites/greentileDownBorder.png")
-
-				elif isBorder(adjacent[6],biome):
-						tile.get_node("Sprite2D").texture = load("res://sprites/greenTileLeftBorder.png")
-				if animate:
-					#await get_tree().process_frame
-					pass
+					
+					#full border (just in case)
+					if isBorder(([adjacent[0],adjacent[2],adjacent[4],adjacent[6]]),biome):
+						tile.get_node("Sprite2D").texture = load("res://sprites/grassTileAllBorder.png")
+					#threes
+					elif isBorder(([adjacent[0],adjacent[2],adjacent[4]]),biome):
+						tile.get_node("Sprite2D").texture = load("res://sprites/grassTileNotLeftBorder.png")
+					elif isBorder(([adjacent[2],adjacent[4],adjacent[6]]),biome):
+						tile.get_node("Sprite2D").texture = load("res://sprites/grassTileNotDownBorder.png")
+					elif isBorder(([adjacent[4],adjacent[6],adjacent[0]]),biome):
+						tile.get_node("Sprite2D").texture = load("res://sprites/grassTileNotRightBorder.png")
+					elif isBorder(([adjacent[6],adjacent[0],adjacent[2]]),biome):
+						tile.get_node("Sprite2D").texture = load("res://sprites/grassTileNotUpBorder.png")
+					#twos
+					elif isBorder(([adjacent[0],adjacent[2]]),biome):
+						tile.get_node("Sprite2D").texture = load("res://sprites/grassTileDownRightBorder.png")
+					elif isBorder(([adjacent[2],adjacent[4]]),biome):
+						tile.get_node("Sprite2D").texture = load("res://sprites/grassTileUpLeftBorder.png")
+					elif isBorder(([adjacent[4],adjacent[6]]),biome):
+						tile.get_node("Sprite2D").texture = load("res://sprites/grassTileUpRightBorder.png")
+					elif isBorder(([adjacent[6],adjacent[0]]),biome):
+						tile.get_node("Sprite2D").texture = load("res://sprites/grassTileDownLeftBorder.png")
+					elif isBorder(([adjacent[0],adjacent[4]]),biome):
+						tile.get_node("Sprite2D").texture = load("res://sprites/grassTileUpDownBorder.png")
+					elif isBorder(([adjacent[2],adjacent[6]]),biome):
+						tile.get_node("Sprite2D").texture = load("res://sprites/grassTileLeftRightBorder.png")
+		
+					#ones
+					elif isBorder(adjacent[4],biome):
+							tile.get_node("Sprite2D").texture = load("res://sprites/grassTileUpBorder.png")
+	
+					elif isBorder(adjacent[2],biome):
+							tile.get_node("Sprite2D").texture = load("res://sprites/grassTileRightBorder.png")
+	
+	
+					elif isBorder(adjacent[0],biome):
+							tile.get_node("Sprite2D").texture = load("res://sprites/grassTileDownBorder.png")
+	
+					elif isBorder(adjacent[6],biome):
+							tile.get_node("Sprite2D").texture = load("res://sprites/grassTileLeftBorder.png")
+					if animate:
+						await get_tree().process_frame
+					
 	######Init starting units
 	var tile = tileMap[random.randf_range(0,size-1)][random.randi_range(0,size-1)]
 	var unit = unitScene.instantiate()
@@ -267,28 +269,28 @@ func _on_test_pressed() -> void:
 	units.append(unit)
 	
 
-#func _process(delta: float) -> void:
-	#if generated:
-	#	print(waiting)
-	#	for unit in units:
-	#		if not unit.select:
-	#			#print(waiting)
-	#			for row in tileMap:
-	#				for tile in row:
-	#					tile.position.y = tile.isoY
-	#					if tile.highlight == true:
-	#						$label.text = debugString % [seed,tile.cartX,tile.cartY,tile.altitude,tile.biomeValue]
-	#					if tile.select == true and not(waiting):
-	#						for biomeGroup in biomeMap:
-	#							if biomeGroup[0] == tile.biomeValue:
-	#								for target in biomeGroup:
-	#									if target is not float:
-	#										if target.altitude >75:
-	#											target.position.y = target.isoY - 20
-	##								return
-	#		
-	#					else:
-	#						tile.position.y = tile.isoY
+func _process(delta: float) -> void:
+	if generated:
+		print(waiting)
+		for unit in units:
+			if not unit.select:
+				#print(waiting)
+				for row in tileMap:
+					for tile in row:
+						tile.position.y = tile.isoY
+						if tile.highlight == true:
+							$label.text = debugString % [seed,tile.cartX,tile.cartY,tile.altitude,tile.biomeValue]
+						if tile.select == true and not(waiting):
+							for biomeGroup in biomeMap:
+								if biomeGroup[0] == tile.biomeValue:
+									for target in biomeGroup:
+										if target is not float:
+											if target.altitude >75:
+												target.position.y = target.isoY - 20
+									return
+			
+						else:
+							tile.position.y = tile.isoY
 #OLD^#^^^
 	
 	

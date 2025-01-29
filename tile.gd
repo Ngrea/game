@@ -8,8 +8,8 @@ var altitude
 var cartX
 var cartY
 var biomeValue
-var water = load("res://sprites/water.png")
-var land = load("res://sprites/unitTileGREEN.png")
+var water = load("res://sprites/waterTile.png")
+var land = load("res://sprites/grassTile.png")
 var select
 var biomeDebug = true
 var unit
@@ -27,7 +27,7 @@ func start(inputX,inputY,altitude,biome) -> float:
 		$Sprite2D.texture = land
 		if biomeDebug == true:
 			
-			$Sprite2D.modulate = Color(clamp(1 - biomeValue/70,0,1),clamp(biomeValue/50,0,1), clamp(1-biomeValue/70,0,1))
+			$Sprite2D.modulate = Color(clamp(1 - biomeValue/70,0,1)*0.75,clamp(biomeValue/50,0,1), clamp(1-biomeValue/70,0,1))
 	
 	isoX = ((inputX*160) * 0.5) + ((inputY*160) * -0.5) +800
 	isoY = ((inputX*160) *0.25 )+ ((inputY*160) * 0.25) - 1.5 #-(altitude/2.5)

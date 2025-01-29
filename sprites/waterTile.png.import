@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bgioqb82pgt71"
-path="res://.godot/imported/greentileNotRight.png-690e9cf3fba10ee734b37c4bc716f988.ctex"
+uid="uid://dtmo4uf3prv7y"
+path="res://.godot/imported/waterTile.png-bf400922e249747f8b7431a39dd951c6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/greentileNotRight.png"
-dest_files=["res://.godot/imported/greentileNotRight.png-690e9cf3fba10ee734b37c4bc716f988.ctex"]
+source_file="res://sprites/waterTile.png"
+dest_files=["res://.godot/imported/waterTile.png-bf400922e249747f8b7431a39dd951c6.ctex"]
 
 [params]
 
