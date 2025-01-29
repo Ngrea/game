@@ -6,7 +6,7 @@ var biomeNoise = FastNoiseLite.new()
 var tileMap = []
 var seed = random.randi_range(1,1000000)
 var debugString = "Seed: %s \nPos: %s , %s \nAltitude: %s \nBiome: %s "
-var size = 30
+var size = 50
 var biomeMap = []
 var tileScene = load("res://tile.tscn")
 var testUnit
@@ -208,7 +208,7 @@ func isBorder(check,biome):
 	if check is Array:
 		for item in check:
 			#print("list")
-			if not(item is not int and item.altitude >=75 and item.biomeValue!=biome):
+			if not(item is not int and item.altitude >= 75 and item.biomeValue!=biome):
 				return false
 		return true
 	#if check is not int:
@@ -269,28 +269,28 @@ func _on_test_pressed() -> void:
 	units.append(unit)
 	
 
-func _process(delta: float) -> void:
-	if generated:
+#func _process(delta: float) -> void:
+#	if generated:
 		#print(waiting)
-		for unit in units:
-			if not unit.select:
-				#print(waiting)
-				for row in tileMap:
-					for tile in row:
-						tile.position.y = tile.isoY
-						if tile.highlight == true:
-							$label.text = debugString % [seed,tile.cartX,tile.cartY,tile.altitude,tile.biomeValue]
-						if tile.select == true and not(waiting):
-							for biomeGroup in biomeMap:
-								if biomeGroup[0] == tile.biomeValue:
-									for target in biomeGroup:
-										if target is not float:
-											if target.altitude >75:
-												target.position.y = target.isoY - 20
-									return
-			
-						else:
-							tile.position.y = tile.isoY
+#		for unit in units:
+#			if not unit.select:
+##				#print(waiting)
+##				for row in tileMap:
+#					for tile in row:
+##						tile.position.y = tile.isoY
+##						if tile.highlight == true:
+#	#						$label.text = debugString % [seed,tile.cartX,tile.cartY,tile.altitude,tile.biomeValue]
+#	##					if tile.select == true and not(waiting):
+###							for biomeGroup in biomeMap:
+#								if biomeGroup[0] == tile.biomeValue:
+#									for target in biomeGroup:
+#										if target is not float:
+#											if target.altitude >75:
+#												target.position.y = target.isoY - 20
+#									return
+#			
+#						else:
+#							tile.position.y = tile.isoY
 #OLD^#^^^
 	
 	

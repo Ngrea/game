@@ -23,6 +23,7 @@ config/icon="res://icon.svg"
 LastSelectedTile="*res://last_selected_tile.gd"
 LastSelectedUnit="*res://last_selected_unit.gd"
 Turn="*res://turn.gd"
+PlayerCount="*res://player_count.gd"
 
 [display]
 

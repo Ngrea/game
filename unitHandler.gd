@@ -6,8 +6,6 @@ func _ready() -> void:
 	pass # Replace with function body.
 
 
-
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 
@@ -26,7 +24,7 @@ func _process(delta: float) -> void:
 			var newTile = await $map.selectTile()
 			if newTile in adjacent:
 				LastSelectedUnit.lastSelectedUnit.tile= newTile
-				newTile.unit = LastSelectedUnit.lastSelectedUnit
+				newTile.units.append = LastSelectedUnit.lastSelectedUnit
 			$map.waiting = false
 			LastSelectedUnit.lastSelectedUnit = null
 	

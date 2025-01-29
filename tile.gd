@@ -27,13 +27,20 @@ func start(inputX,inputY,altitude,biome) -> float:
 		$Sprite2D.texture = land
 		if biomeDebug == true:
 			
-			$Sprite2D.modulate = Color(clamp(1 - biomeValue/70,0,1)*0.75,clamp(biomeValue/50,0,1), clamp(1-biomeValue/70,0,1))
+			$Sprite2D.modulate = Color(clamp(1 - biomeValue/70,0,1),clamp(biomeValue/40,0,1), clamp(1-biomeValue/70,0,1))
 	
 	isoX = ((inputX*160) * 0.5) + ((inputY*160) * -0.5) +800
 	isoY = ((inputX*160) *0.25 )+ ((inputY*160) * 0.25) - 1.5 #-(altitude/2.5)
 	position.x = isoX 
 	position.y = isoY
+	
+	for x in range(1,PlayerCount.playerCount-1):
+		units.append([])
+	
+	
 	return (altitude)
+	
+	
 	
 func _on_area_2d_mouse_entered() -> void:
 	highlight = true
@@ -51,36 +58,29 @@ func _input(event: InputEvent) -> void:
 			select = false	
 	
 func addUnit(unit):
-	units.append(unit)
-	var player = unit.player
-	if len(units) == 1:
-		unit.location = "center"
-		unit.level = 1
-	
-	var contestants = []
-	for item in units:
-		if item.player not in contestants:
-			contestants.append(unit.player)
-	
-
-	if len(contestants) == 1:
-		unit.location = "center"
-		unit.level = len(units)
-	elif len(contestants) == 2:
-		for item in units:
-			if item.player == contestants[1]:
-				item.location = "left"
-				item.level = len(units)
-			elif item.player == contestants[2]:
-				item.location = "right"
-				item.location == len(units)
-	elif len(contestants) == 3:
-		for item in units:
-			if item.player == contestants[1]:
-				item.location = "topLeft"
-				item.level = len(units)
-			elif item.player == contestants[2]:
-				item.location = "topRight"
-				item.location == len(units)	
-		#	elif item.player == contestants
-		
+	units[PlayerCount.playerCount-1].append(unit)
+	var contestants =[]
+	var j = 0
+	for row in units:
+		for item in row:
+			if item.player not in contestants:
+				contestants.append(item.player)
+	for row in units:
+		var i = 0
+		j+=1
+		for item in row:
+			i+=1
+			if len(contestants)==1:
+				unit.location = "center"
+				unit.level = i
+			
+			if len(contestants)==2:
+				if j == 1:
+					unit.location = "centerTop"
+					unit.level = i
+				if j == 2:
+					unit.location = "centerBottom"
+					unit.level = i
+			
+			
+			
