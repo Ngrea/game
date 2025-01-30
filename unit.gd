@@ -34,5 +34,26 @@ func _process(delta: float) -> void:
 	#else:
 	#	$Sprite2D.modulate=Color(0,0,0)
 	#position.y = tile.position.y -50
-	position.x = tile.position.x
-	position.y = tile.position.y -48
+	#position.x = tile.position.x
+	#position.y = tile.position.y -48
+	if location == "center":
+		position.y = tile.position.y - 48
+		position.x = tile.position.x
+	elif location == "centerTop":
+		position.y = tile.position.y -48 - 12
+		position.x = tile.position.x + 20
+	elif location == "centerBottom":
+		position.y = tile.position.y - 48 + 12
+		position.x = tile.position.x 
+	elif location == "topLeft":
+		position.y = tile.position.y -48-24
+		position.x = tile.position.x
+	elif location == "topRight":
+		position.y = tile.position.y 
+		position.x = tile.position.x + 24
+	elif location == "bottomLeft":
+		position.y = tile.position.y
+		position.x = tile.position.x - 24
+	elif location == "bottomRight":
+		position.y = tile.position.y +24
+		position.x = tile.position.x

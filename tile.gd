@@ -34,9 +34,9 @@ func start(inputX,inputY,altitude,biome) -> float:
 	position.x = isoX 
 	position.y = isoY
 	
-	for x in range(1,PlayerCount.playerCount-1):
+	for x in range(0,PlayerCount.playerCount):
 		units.append([])
-	
+	print(units)
 	
 	return (altitude)
 	
@@ -58,13 +58,15 @@ func _input(event: InputEvent) -> void:
 			select = false	
 	
 func addUnit(unit):
-	units[Turn.turn].append(unit)
+	units[Turn.turn-1].append(unit)
+	print(units)
 	var contestants =[]
 	var j = 0
 	for row in units:
 		for item in row:
 			if item.player not in contestants:
 				contestants.append(item.player)
+	print("contestants: ", contestants, "length: ", len(contestants))
 	for row in units:
 		var i = 0
 		j+=1
@@ -76,33 +78,33 @@ func addUnit(unit):
 			
 			if len(contestants)==2:
 				if j == 1:
-					unit.location = "centerTop"
-					unit.level = i
+					item.location = "centerTop"
+					item.level = i
 				if j == 2:
-					unit.location = "centerBottom"
-					unit.level = i
+					item.location = "centerBottom"
+					item.level = i
 			if len(contestants)==3:
 				if j == 1:
-					unit.location = "topLeft"
-					unit.level = i
+					item.location = "topLeft"
+					item.level = i
 				if j == 2:
-					unit.location = "topRight"
-					unit.level = i
+					item.location = "topRight"
+					item.level = i
 				if j == 3:
-					unit.location = "centerBottom"
-					unit.level = i
+					item.location = "centerBottom"
+					item.level = i
 			if len(contestants)==4:
 				if j == 1:
-					unit.location = "topLeft"
-					unit.level = i
+					item.location = "topLeft"
+					item.level = i
 				if j == 2:
-					unit.location = "topRight"
-					unit.level = i
+					item.location = "topRight"
+					item.level = i
 				if j == 3:
-					unit.location = "bottomLeft"
-					unit.level = i
+					item.location = "bottomLeft"
+					item.level = i
 				if j == 4:
-					unit.location ="bottomRight"
-					unit.level = i
+					item.location ="bottomRight"
+					item.level = i
 	unit.tile=self
 			
