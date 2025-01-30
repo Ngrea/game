@@ -21,12 +21,12 @@ func _on_area_2d_mouse_exited() -> void:
 func _input(event: InputEvent) -> void: 
 	if event.is_action_released("click") and highlight == true and Turn.turn == player:
 		select = true
-		$Sprite2D.modulate=Color(0,255,0)
+		#$Sprite2D.modulate=Color(0,255,0)
 		LastSelectedUnit.lastSelectedUnit = self
 		print(tile)
 	elif select == true and event.is_action_released("click"):
 		select = false
-		$Sprite2D.modulate=Color(0,0,0)
+		#$Sprite2D.modulate=Color(0,0,0)
 		
 func _process(delta: float) -> void:
 	#if select == true:
@@ -37,23 +37,24 @@ func _process(delta: float) -> void:
 	#position.x = tile.position.x
 	#position.y = tile.position.y -48
 	if location == "center":
-		position.y = tile.position.y - 48
+		position.y = tile.position.y - 48 - (level * 3 * 2.5)
 		position.x = tile.position.x
 	elif location == "centerTop":
-		position.y = tile.position.y -48 - 12
+		position.y = tile.position.y -48 - 12- (level * 3 * 2.5)
 		position.x = tile.position.x + 20
 	elif location == "centerBottom":
-		position.y = tile.position.y - 48 + 12
-		position.x = tile.position.x 
+		position.y = tile.position.y - 48 + 12- (level * 3 * 2.5)
+		position.x = tile.position.x -20
 	elif location == "topLeft":
-		position.y = tile.position.y -48-12
+		position.y = tile.position.y -48-24- (level * 3 * 2.5)
 		position.x = tile.position.x
 	elif location == "topRight":
-		position.y = tile.position.y 
-		position.x = tile.position.x + 12
+		position.y = tile.position.y -48- (level * 3 * 2.5)
+		position.x = tile.position.x +36
 	elif location == "bottomLeft":
-		position.y = tile.position.y
-		position.x = tile.position.x -12
+		position.y = tile.position.y -48-(level * 3 * 2.5)
+		position.x = tile.position.x -36
 	elif location == "bottomRight":
-		position.y = tile.position.y +12
+		position.y = tile.position.y -48 +24- (level * 3 * 2.5)
 		position.x = tile.position.x
+	

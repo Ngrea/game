@@ -13,6 +13,7 @@ var land = load("res://sprites/grassTile.png")
 var select
 var biomeDebug = true
 var units = []
+var colour
 func start(inputX,inputY,altitude,biome) -> float:
 	cartX = inputX
 	cartY = inputY

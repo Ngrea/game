@@ -91,9 +91,12 @@ func _ready() -> void:
 				values.append(region)
 				biomeMap.append([region])
 				#print(region)
+				var colour =Color(random.randf_range(0,1)/1.2,random.randf_range(0,1),random.randf_range(0,1)/1.5)
 				for checkRow in tileMap:
 					for checkTile in checkRow:
 						if checkTile.biomeValue == region and checkTile not in solvedTiles:
+							if checkTile.altitude > 74:
+								checkTile.get_node("Sprite2D").modulate = colour
 							solvedTiles.append(checkTile)
 							biomeMap[count].append(checkTile)
 				count+=1
