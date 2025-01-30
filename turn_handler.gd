@@ -1,7 +1,7 @@
 extends Node2D
 #This script determines who's turn it is.
 #It will hook into a larger UI scene
-var playerCount = 3
+var playerCount = PlayerCount.playerCount
 var turn
 func _ready() -> void:
 	turn = 1

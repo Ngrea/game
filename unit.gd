@@ -46,14 +46,14 @@ func _process(delta: float) -> void:
 		position.y = tile.position.y - 48 + 12
 		position.x = tile.position.x 
 	elif location == "topLeft":
-		position.y = tile.position.y -48-24
+		position.y = tile.position.y -48-12
 		position.x = tile.position.x
 	elif location == "topRight":
 		position.y = tile.position.y 
-		position.x = tile.position.x + 24
+		position.x = tile.position.x + 12
 	elif location == "bottomLeft":
 		position.y = tile.position.y
-		position.x = tile.position.x - 24
+		position.x = tile.position.x -12
 	elif location == "bottomRight":
-		position.y = tile.position.y +24
+		position.y = tile.position.y +12
 		position.x = tile.position.x

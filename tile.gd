@@ -73,8 +73,8 @@ func addUnit(unit):
 		for item in row:
 			i+=1
 			if len(contestants)==1:
-				unit.location = "center"
-				unit.level = i
+				item.location = "center"
+				item.level = i
 			
 			if len(contestants)==2:
 				if j == 1:
