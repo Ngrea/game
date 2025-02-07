@@ -6,7 +6,7 @@ var biomeNoise = FastNoiseLite.new()
 var tileMap = []
 var seed = random.randi_range(1,1000000)
 var debugString = "Seed: %s \nPos: %s , %s \nAltitude: %s \nBiome: %s "
-var size = 30
+var size = 10
 var biomeMap = []
 var tileScene = load("res://tile.tscn")
 var testUnit
@@ -30,7 +30,7 @@ var generated = false
 var animate = false
 var units=[]
 var waiting = false
-var turnUI
+var turnHandler
 var border = true
 func getBiome(i,j,save) -> float:
 	biomeNoise.seed = seed
@@ -55,9 +55,9 @@ func _ready() -> void:
 	
 	noise.noise_type = FastNoiseLite.TYPE_SIMPLEX
 	noise.seed = seed
-	noise.frequency = 0.001
-	noise.fractal_octaves = 5
-	noise.fractal_lacunarity = 3
+	noise.frequency = 0.0005
+	noise.fractal_octaves = 7
+	noise.fractal_lacunarity = 2
 	noise.fractal_gain = 0.3
 	
 	#initialise tilemap
@@ -70,7 +70,7 @@ func _ready() -> void:
 		
 	for i in range(size):
 		for j in range(size):
-			noiseValue = abs(noise.get_noise_2d(i*40,j*40) * 2 - 1)
+			noiseValue = abs(noise.get_noise_2d(i*30,j*30) * 2 - 1)
 			
 			var tile = tileScene.instantiate()
 			var biomeValue = getBiome(i,j,false)
@@ -91,7 +91,7 @@ func _ready() -> void:
 				values.append(region)
 				biomeMap.append([region])
 				#print(region)
-				var colour =Color(random.randf_range(0,1)/1.2,random.randf_range(0,1),random.randf_range(0,1)/1.5)
+				var colour =Color(random.randf_range(0,1)/1.5,random.randf_range(0,1),random.randf_range(0,1)/3)
 				for checkRow in tileMap:
 					for checkTile in checkRow:
 						if checkTile.biomeValue == region and checkTile not in solvedTiles:
@@ -109,7 +109,7 @@ func _ready() -> void:
 					var adjacent = findAdjacent(tile)
 	
 					
-					#full border (just in case)
+					#full border
 					if isBorder(([adjacent[0],adjacent[2],adjacent[4],adjacent[6]]),biome):
 						tile.get_node("Sprite2D").texture = load("res://sprites/grassTileAllBorder.png")
 					#threes
@@ -136,20 +136,20 @@ func _ready() -> void:
 						tile.get_node("Sprite2D").texture = load("res://sprites/grassTileLeftRightBorder.png")
 		
 					#ones
-					elif isBorder(adjacent[4],biome):
+					elif isBorder([adjacent[4]],biome):
 							tile.get_node("Sprite2D").texture = load("res://sprites/grassTileUpBorder.png")
 	
-					elif isBorder(adjacent[2],biome):
+					elif isBorder([adjacent[2]],biome):
 							tile.get_node("Sprite2D").texture = load("res://sprites/grassTileRightBorder.png")
 	
 	
-					elif isBorder(adjacent[0],biome):
+					elif isBorder([adjacent[0]],biome):
 							tile.get_node("Sprite2D").texture = load("res://sprites/grassTileDownBorder.png")
 	
-					elif isBorder(adjacent[6],biome):
+					elif isBorder([adjacent[6]],biome):
 							tile.get_node("Sprite2D").texture = load("res://sprites/grassTileLeftBorder.png")
-					if animate:
-						await get_tree().process_frame
+					#if animate:
+						#await get_tree().process_frame
 					
 	######Init starting units
 	var tile = tileMap[random.randf_range(0,size-1)][random.randi_range(0,size-1)]
@@ -160,9 +160,25 @@ func _ready() -> void:
 	
 	
 	####UI ELEMENTS
-	turnUI = (load("res://turn_handler.tscn")).instantiate()
-	add_child(turnUI)
+	turnHandler = (load("res://turn_handler.tscn")).instantiate()
+	add_child(turnHandler)
+	turnHandler.get_node("Button").pressed.connect(endTurn)
 	generated = true		
+
+func endTurn():
+	print("pressed")
+	print(Turn.turn)
+	##for row in tileMap:
+	print(PlayerCount.playerCount)
+		#for tile in row:
+		#	if len(tile.contestants) > 1:
+		#		tile.battle()
+	if Turn.turn < PlayerCount.playerCount:
+		Turn.turn += 1
+	else:
+		Turn.turn = 1
+
+
 func findAdjacent(tile):
 	#Finds tiles adjacent to the input tile
 	var x = tile.cartX
@@ -216,12 +232,12 @@ func isBorder(check,biome):
 		return true
 	#if check is not int:
 		#print("single")
-	if check is not int and check.altitude >= 75 and check.biomeValue != biome:
-		return true
-	else:
-		return false
+	#if check is not int and check.altitude >= 75 and check.biomeValue != biome:
+	#	return true
+	#else:
+	#	return false
 
-	return true
+	#return true
 #Camera zoom func
 func _input(event: InputEvent) -> void:
 	if event.is_action_released("scrollUp"):
@@ -295,11 +311,6 @@ func _on_test_pressed() -> void:
 #						else:
 #							tile.position.y = tile.isoY
 #OLD^#^^^
-	
-	
-	
 
-	
-	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

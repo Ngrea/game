@@ -13,9 +13,9 @@ func _process(delta: float) -> void:
 
 
 func _on_button_pressed() -> void:
-	#newGame.queue_free()
-	#game = load("res://map.tscn")
-	#newGame = game.instantiate()
-	#add_child(newGame)
-	print(len(test))
+	newGame.queue_free()
+	game = load("res://map.tscn")
+	newGame = game.instantiate()
+	add_child(newGame)
+	
 	

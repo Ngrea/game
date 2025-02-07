@@ -13,9 +13,6 @@ config_version=5
 config/name="project"
 run/main_scene="res://map.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
-boot_splash/bg_color=Color(0.141176, 0.141176, 0.141176, 0)
-boot_splash/show_image=false
-boot_splash/image="none"
 config/icon="res://icon.svg"
 
 [autoload]
@@ -24,6 +21,10 @@ LastSelectedTile="*res://last_selected_tile.gd"
 LastSelectedUnit="*res://last_selected_unit.gd"
 Turn="*res://turn.gd"
 PlayerCount="*res://player_count.gd"
+
+[debug]
+
+settings/stdout/print_fps=true
 
 [display]
 

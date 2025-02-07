@@ -14,6 +14,7 @@ var select
 var biomeDebug = true
 var units = []
 var colour
+var contestants
 func start(inputX,inputY,altitude,biome) -> float:
 	cartX = inputX
 	cartY = inputY
@@ -37,7 +38,7 @@ func start(inputX,inputY,altitude,biome) -> float:
 	
 	for x in range(0,PlayerCount.playerCount):
 		units.append([])
-	print(units)
+	
 	
 	return (altitude)
 	
@@ -61,7 +62,7 @@ func _input(event: InputEvent) -> void:
 func addUnit(unit):
 	units[Turn.turn-1].append(unit)
 	print(units)
-	var contestants =[]
+	contestants =[]
 	var j = 0
 	for row in units:
 		for item in row:
@@ -109,3 +110,5 @@ func addUnit(unit):
 					item.level = i
 	unit.tile=self
 			
+func battle():
+	pass

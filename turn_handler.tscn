@@ -19,5 +19,3 @@ offset_top = -310.0
 offset_right = -81.0
 offset_bottom = -279.0
 text = "End Turn"
-
-[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

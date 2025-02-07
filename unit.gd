@@ -10,8 +10,14 @@ var level
 func _ready() -> void:
 	position.x = tile.position.x
 	position.y = tile.position.y - 48
-
-
+	if player == 1:
+		$Sprite2D.texture = load("res://sprites/p1Unit.png")
+	if player == 2:
+		$Sprite2D.texture = load("res://sprites/p2Unit.png")
+	if player == 3:
+		$Sprite2D.texture = load("res://sprites/p3Unit.png")
+	if player == 4:
+		$Sprite2D.texture = load("res://sprites/p4Unit.png")
 func _on_area_2d_mouse_entered() -> void:
 	highlight = true
 
