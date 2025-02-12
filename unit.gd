@@ -2,8 +2,6 @@ extends Node2D
 var tile
 var highlight
 var select
-var X
-var Y
 var player
 var location
 var level

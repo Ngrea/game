@@ -27,9 +27,9 @@ func start(inputX,inputY,altitude,biome) -> float:
 	
 	elif altitude >=75:
 		$Sprite2D.texture = land
-		if biomeDebug == true:
+		#if biomeDebug == true:
 			
-			$Sprite2D.modulate = Color(clamp(1 - biomeValue/70,0,1),clamp(biomeValue/40,0,1), clamp(1-biomeValue/70,0,1))
+		$Sprite2D.modulate = Color(clamp(1 - biomeValue/70,0,1),clamp(biomeValue/40,0,1), clamp(1-biomeValue/70,0,1))
 	
 	isoX = ((inputX*160) * 0.5) + ((inputY*160) * -0.5) +800
 	isoY = ((inputX*160) *0.25 )+ ((inputY*160) * 0.25) - 1.5 #-(altitude/2.5)
@@ -62,7 +62,7 @@ func _input(event: InputEvent) -> void:
 func addUnit(unit):
 	units[Turn.turn-1].append(unit)
 	print(units)
-	contestants =[]
+	contestants = []
 	var j = 0
 	for row in units:
 		for item in row:
@@ -74,41 +74,50 @@ func addUnit(unit):
 		j+=1
 		for item in row:
 			i+=1
-			if len(contestants)==1:
+			if len(contestants) == 1:
 				item.location = "center"
-				item.level = i
+				
 			
 			if len(contestants)==2:
 				if j == 1:
 					item.location = "centerTop"
-					item.level = i
+					
 				if j == 2:
 					item.location = "centerBottom"
-					item.level = i
+					
 			if len(contestants)==3:
 				if j == 1:
 					item.location = "topLeft"
-					item.level = i
+					
 				if j == 2:
 					item.location = "topRight"
-					item.level = i
+					
 				if j == 3:
 					item.location = "centerBottom"
-					item.level = i
+					
 			if len(contestants)==4:
 				if j == 1:
 					item.location = "topLeft"
-					item.level = i
+					
 				if j == 2:
 					item.location = "topRight"
-					item.level = i
+					
 				if j == 3:
 					item.location = "bottomLeft"
-					item.level = i
+					
 				if j == 4:
-					item.location ="bottomRight"
-					item.level = i
+					item.location = "bottomRight"
+			
+			item.level = i	
+			
 	unit.tile=self
 			
 func battle():
-	pass
+	for unit in units:
+		pass
+	if contestants:
+		print(contestants)
+		print(units)
+	
+	#if len(contestants) == 2:
+	#	for unit in 

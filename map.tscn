@@ -25,6 +25,6 @@ offset_left = -1191.0
 offset_top = -354.0
 offset_right = -802.0
 offset_bottom = -182.0
-text = "HII"
+text = "Unit"
 
 [connection signal="pressed" from="map/testButton" to="map" method="_on_test_pressed"]

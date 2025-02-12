@@ -1,4 +1,6 @@
 extends Node2D
+
+##Vars
 var noiseValue
 var random=RandomNumberGenerator.new()
 var noise=FastNoiseLite.new()
@@ -12,22 +14,9 @@ var tileScene = load("res://tile.tscn")
 var testUnit
 var unitScene = load("res://unit.tscn")
 var lastClickedTile
-var notLeft = load("res://sprites/greentileNotLeft.png")
-var notRight = load("res://sprites/greentileNotRight.png")
-var notUp = load("res://sprites/greentileNotUp.png")
-var notDown = load("res://sprites/greentileNotDown.png")
-var upDown = load("res://sprites/greentileUpDownBorder.png")
-var upRight = load("res://sprites/greentileUpRightBorder.png")
-var upLeft = load("res://sprites/greentileUpLeftBorder.png")
-var downLeft = load("res://sprites/greentileDownLeftBorder.png")
-var downRight = load("res://sprites/greentileDownRightBorder.png")
-var leftRight = load("res://sprites/greentileRightLeftBorder.png")
-var up = load("res://sprites/greenTileUpBorder.png")
-var down = load("res://sprites/greentileDownBorder.png")
-var left = load("res://sprites/greenTileLeftBorder.png")
-var right= load("res://sprites/greenTileRightBorder.png")
+
 var generated = false
-var animate = false
+var animate = true
 var units=[]
 var waiting = false
 var turnHandler
@@ -46,7 +35,7 @@ func getBiome(i,j,save) -> float:
 		img = biomeNoise.get_image(340,340)
 		img.save_png("noise.png")
 		print("saved")
-	return abs(biomeNoise.get_noise_2d(i*10,j*10) *100)
+	return abs(biomeNoise.get_noise_2d(i*20,j*20) *100)
 
 
 
@@ -70,7 +59,7 @@ func _ready() -> void:
 		
 	for i in range(size):
 		for j in range(size):
-			noiseValue = abs(noise.get_noise_2d(i*30,j*30) * 2 - 1)
+			noiseValue = abs(noise.get_noise_2d(i*100,j*100) * 2 - 1)
 			
 			var tile = tileScene.instantiate()
 			var biomeValue = getBiome(i,j,false)
@@ -163,16 +152,15 @@ func _ready() -> void:
 	turnHandler = (load("res://turn_handler.tscn")).instantiate()
 	add_child(turnHandler)
 	turnHandler.get_node("Button").pressed.connect(endTurn)
-	generated = true		
+	generated = true
 
 func endTurn():
 	print("pressed")
 	print(Turn.turn)
-	##for row in tileMap:
 	print(PlayerCount.playerCount)
-		#for tile in row:
-		#	if len(tile.contestants) > 1:
-		#		tile.battle()
+	for row in tileMap:
+		for tile in row:
+			tile.battle()
 	if Turn.turn < PlayerCount.playerCount:
 		Turn.turn += 1
 	else:
@@ -277,10 +265,7 @@ func selectTile():
 
 func _on_test_pressed() -> void:
 	var tile = await selectTile()
-	#for x in findAdjacent(tile):
-	#	x.position.y += 20
-	#	await get_tree().create_timer(1.0).timeout
-	
+
 	var unit = unitScene.instantiate()
 	unit.tile=tile
 	unit.player = Turn.turn
@@ -289,15 +274,15 @@ func _on_test_pressed() -> void:
 	
 
 #func _process(delta: float) -> void:
-#	if generated:
+#	if false:
 #	#print(waiting)
 #		for unit in units:
-#			if not unit.select:
+##			if not unit.select:
 #				#print(waiting)
 #				for row in tileMap:
 #					for tile in row:
 #						tile.position.y = tile.isoY
-#						if tile.highlight == true:
+##						if tile.highlight == true:
 #							$label.text = debugString % [seed,tile.cartX,tile.cartY,tile.altitude,tile.biomeValue]
 #						if tile.select == true and not(waiting):
 #							for biomeGroup in biomeMap:
@@ -310,7 +295,7 @@ func _on_test_pressed() -> void:
 #			
 #						else:
 #							tile.position.y = tile.isoY
-#OLD^#^^^
-
+##OLD^#^^^
+#
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

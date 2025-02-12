@@ -13,6 +13,7 @@ config_version=5
 config/name="project"
 run/main_scene="res://map.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
+run/max_fps=400
 config/icon="res://icon.svg"
 
 [autoload]
@@ -22,14 +23,11 @@ LastSelectedUnit="*res://last_selected_unit.gd"
 Turn="*res://turn.gd"
 PlayerCount="*res://player_count.gd"
 
-[debug]
-
-settings/stdout/print_fps=true
-
 [display]
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
+window/vsync/vsync_mode=0
 
 [input]
 
