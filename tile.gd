@@ -111,13 +111,94 @@ func addUnit(unit):
 			item.level = i	
 			
 	unit.tile=self
-			
-func battle():
-	for unit in units:
-		pass
-	if contestants:
-		print(contestants)
-		print(units)
+
+func removeUnit(unit):
+	var i=-1
+	var j=-1
+	for group in units:
+		i+=1
+		for item in group:
+			j +=1
+			if item == unit:
+				units[i].pop_at(j)
+	unit.queue_free()
 	
+func battle():
+	var combatantPlayers = []
+	var combatantUnits = []
+	if contestants and  len(contestants) == 2:
+		var number = 2
+
+		for group in units:
+			for unit in group:
+				if len(combatantPlayers) == 2:
+					break
+				if unit.player not in combatantPlayers:
+					combatantPlayers.append(unit.player)
+					combatantUnits.append(unit)
+		var outcome = random.randi_range(1,10)
+		if outcome < 3:
+			return
+		if outcome < 6:
+			removeUnit(combatantUnits[0])
+			return
+		if outcome < 9:
+			removeUnit(combatantUnits[1])
+			return
+		else:
+			removeUnit(combatantUnits[0])
+			removeUnit(combatantUnits[1])
+			return
+	if contestants and len(contestants) == 3:
+		for group in units:
+			for unit in group:
+				if len(combatantPlayers) == 3:
+					break
+				if unit.player not in combatantPlayers:
+					combatantPlayers.append(unit.player)
+					combatantUnits.append(unit)
+		var outcome = randi_range(1,10)
+		if outcome <2:
+			return
+		if outcome < 4:
+			removeUnit(combatantUnits[0])
+			return
+		if outcome < 6:
+			removeUnit(combatantUnits[1])
+			return
+		if outcome < 8:
+			removeUnit(combatantUnits[2])
+			return
+		if outcome <=10:
+			removeUnit(combatantUnits[0])
+			removeUnit(combatantUnits[1])
+			removeUnit(combatantUnits[2])
+		
+	if contestants and len(contestants) == 4:
+		for group in units:
+			for unit in group:
+				if len(combatantPlayers) == 4:
+					break
+				if unit.player not in combatantPlayers:
+					combatantPlayers.append(unit.player)
+					combatantUnits.append(unit)
+		var outcome = randi_range(1,10)
+		if outcome <1:
+			return
+		if outcome < 3:
+			removeUnit(combatantUnits[0])
+		if outcome < 5:
+			removeUnit(combatantUnits[1])
+		if outcome < 7:
+			removeUnit(combatantUnits[2])
+		if outcome < 9:
+			removeUnit(combatantUnits[3])
+		else:
+			removeUnit(combatantUnits[0])
+			removeUnit(combatantUnits[1])
+			removeUnit(combatantUnits[2])
+			removeUnit(combatantUnits[3])
+		
+				
 	#if len(contestants) == 2:
 	#	for unit in 

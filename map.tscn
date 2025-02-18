@@ -1,30 +1,34 @@
-[gd_scene load_steps=3 format=3 uid="uid://bgpbvms24qhc6"]
+[gd_scene load_steps=4 format=3 uid="uid://bgpbvms24qhc6"]
 
 [ext_resource type="Script" path="res://map.gd" id="1_2djwx"]
 [ext_resource type="Script" path="res://unitHandler.gd" id="1_44ojy"]
+[ext_resource type="Script" path="res://region_helper.gd" id="2_7648h"]
 
-[node name="Map" type="Node2D"]
+[node name="unitHandler" type="Node2D"]
 script = ExtResource("1_44ojy")
 
-[node name="map" type="Node2D" parent="."]
+[node name="regionHelper" type="Node2D" parent="."]
+script = ExtResource("2_7648h")
+
+[node name="map" type="Node2D" parent="regionHelper"]
 script = ExtResource("1_2djwx")
 
-[node name="Camera2D" type="Camera2D" parent="map"]
+[node name="Camera2D" type="Camera2D" parent="regionHelper/map"]
 position = Vector2(1129, 935)
 zoom = Vector2(0.4, 0.4)
 
-[node name="label" type="RichTextLabel" parent="map"]
+[node name="label" type="RichTextLabel" parent="regionHelper/map"]
 offset_left = 2037.0
 offset_top = -116.0
 offset_right = 5881.0
 offset_bottom = 1511.0
 theme_override_font_sizes/normal_font_size = 18
 
-[node name="testButton" type="Button" parent="map"]
+[node name="testButton" type="Button" parent="regionHelper/map"]
 offset_left = -1191.0
 offset_top = -354.0
 offset_right = -802.0
 offset_bottom = -182.0
 text = "Unit"
 
-[connection signal="pressed" from="map/testButton" to="map" method="_on_test_pressed"]
+[connection signal="pressed" from="regionHelper/map/testButton" to="regionHelper/map" method="_on_test_pressed"]

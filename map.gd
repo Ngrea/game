@@ -80,7 +80,7 @@ func _ready() -> void:
 				values.append(region)
 				biomeMap.append([region])
 				#print(region)
-				var colour =Color(random.randf_range(0,1)/1.5,random.randf_range(0,1),random.randf_range(0,1)/3)
+				var colour = Color(random.randf_range(0,1)/1.5,random.randf_range(0,1),random.randf_range(0,1)/3)
 				for checkRow in tileMap:
 					for checkTile in checkRow:
 						if checkTile.biomeValue == region and checkTile not in solvedTiles:
@@ -152,15 +152,17 @@ func _ready() -> void:
 	turnHandler = (load("res://turn_handler.tscn")).instantiate()
 	add_child(turnHandler)
 	turnHandler.get_node("Button").pressed.connect(endTurn)
+	print(biomeMap)
 	generated = true
 
 func endTurn():
 	print("pressed")
 	print(Turn.turn)
 	print(PlayerCount.playerCount)
-	for row in tileMap:
-		for tile in row:
-			tile.battle()
+	if Turn.turn == PlayerCount.playerCount:
+		for row in tileMap:
+			for tile in row:
+				tile.battle()
 	if Turn.turn < PlayerCount.playerCount:
 		Turn.turn += 1
 	else:
@@ -211,7 +213,7 @@ func findAdjacent(tile):
 	return(tiles)
 
 func isBorder(check,biome):
-	
+
 	if check is Array:
 		for item in check:
 			#print("list")
