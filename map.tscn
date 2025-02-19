@@ -10,25 +10,25 @@ script = ExtResource("1_44ojy")
 [node name="regionHelper" type="Node2D" parent="."]
 script = ExtResource("2_7648h")
 
-[node name="map" type="Node2D" parent="regionHelper"]
+[node name="map" type="Node2D" parent="."]
 script = ExtResource("1_2djwx")
 
-[node name="Camera2D" type="Camera2D" parent="regionHelper/map"]
+[node name="Camera2D" type="Camera2D" parent="map"]
 position = Vector2(1129, 935)
 zoom = Vector2(0.4, 0.4)
 
-[node name="label" type="RichTextLabel" parent="regionHelper/map"]
+[node name="label" type="RichTextLabel" parent="map"]
 offset_left = 2037.0
 offset_top = -116.0
 offset_right = 5881.0
 offset_bottom = 1511.0
 theme_override_font_sizes/normal_font_size = 18
 
-[node name="testButton" type="Button" parent="regionHelper/map"]
+[node name="testButton" type="Button" parent="map"]
 offset_left = -1191.0
 offset_top = -354.0
 offset_right = -802.0
 offset_bottom = -182.0
 text = "Unit"
 
-[connection signal="pressed" from="regionHelper/map/testButton" to="regionHelper/map" method="_on_test_pressed"]
+[connection signal="pressed" from="map/testButton" to="map" method="_on_test_pressed"]

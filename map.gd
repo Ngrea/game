@@ -9,7 +9,7 @@ var tileMap = []
 var seed = random.randi_range(1,1000000)
 var debugString = "Seed: %s \nPos: %s , %s \nAltitude: %s \nBiome: %s "
 var size = 10
-var biomeMap = []
+var regionMap = []
 var tileScene = load("res://tile.tscn")
 var testUnit
 var unitScene = load("res://unit.tscn")
@@ -78,7 +78,7 @@ func _ready() -> void:
 			if tile.biomeValue not in values:
 				var region = tile.biomeValue
 				values.append(region)
-				biomeMap.append([region])
+				regionMap.append([region])
 				#print(region)
 				var colour = Color(random.randf_range(0,1)/1.5,random.randf_range(0,1),random.randf_range(0,1)/3)
 				for checkRow in tileMap:
@@ -87,9 +87,14 @@ func _ready() -> void:
 							if checkTile.altitude > 74:
 								checkTile.get_node("Sprite2D").modulate = colour
 							solvedTiles.append(checkTile)
-							biomeMap[count].append(checkTile)
+							regionMap[count].append(checkTile)
+							checkTile.region = count
 				count+=1
- 			#print(biomeMap)
+ 			#print(regionMap)
+	##Asign capture values
+	for region in regionMap:
+		region.append(floor(len(region)/2))
+	
 	if border:
 		for row in tileMap:
 			for tile in row:
@@ -152,7 +157,7 @@ func _ready() -> void:
 	turnHandler = (load("res://turn_handler.tscn")).instantiate()
 	add_child(turnHandler)
 	turnHandler.get_node("Button").pressed.connect(endTurn)
-	print(biomeMap)
+	print(regionMap)
 	generated = true
 
 func endTurn():
@@ -163,12 +168,44 @@ func endTurn():
 		for row in tileMap:
 			for tile in row:
 				tile.battle()
+	####Capturing
+	###sum units
+	for region in regionMap:
+		var p1sum = 0
+		var p2sum = 0
+		var p3sum = 0
+		var p4sum = 0
+		for tile in region:
+			if tile is Node:
+				p1sum+=tile.p1UnitTotal
+				p2sum+=tile.p2UnitTotal
+				p3sum+=tile.p3UnitTotal
+				p4sum+=tile.p4UnitTotal
+			###Captured?
+			#player 1 capture:
+			if p1sum+p2sum+p3sum+p4sum<=1:
+				if p1sum >= region[-1]:
+					capture(1,region)
+				if p2sum >= region[-1]:
+					capture(2,region)
+				if p3sum >= region[-1]:
+					capture(3,region)
+				if p4sum >= region[-1]:
+					capture(4,region)
+			else:
+				var values = [p1sum,p2sum,p3sum,p4sum]
+				var largest = p1sum
+				for value in values:
+					if value > largest:
+						largest = value	
+				capture(largest,region)
 	if Turn.turn < PlayerCount.playerCount:
 		Turn.turn += 1
 	else:
 		Turn.turn = 1
 
-
+func capture(player,region):
+	print("captured",player,region)
 func findAdjacent(tile):
 	#Finds tiles adjacent to the input tile
 	var x = tile.cartX
@@ -262,8 +299,9 @@ func selectTile():
 			return(LastSelectedTile.lastSelectedTile)
 		await get_tree().process_frame
 
-  
-
+func updateInfo(tile):
+	print(tile)
+	$label.text = str(regionMap[tile.region][-1])
 
 func _on_test_pressed() -> void:
 	var tile = await selectTile()
@@ -274,6 +312,8 @@ func _on_test_pressed() -> void:
 	add_child(unit)
 	units.append(unit)
 	
+
+
 
 #func _process(delta: float) -> void:
 #	if false:
@@ -287,7 +327,7 @@ func _on_test_pressed() -> void:
 ##						if tile.highlight == true:
 #							$label.text = debugString % [seed,tile.cartX,tile.cartY,tile.altitude,tile.biomeValue]
 #						if tile.select == true and not(waiting):
-#							for biomeGroup in biomeMap:
+#							for biomeGroup in regionMap:
 #								if biomeGroup[0] == tile.biomeValue:
 #									for target in biomeGroup:
 #										if target is not float:

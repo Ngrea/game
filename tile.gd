@@ -15,6 +15,11 @@ var biomeDebug = true
 var units = []
 var colour
 var contestants
+var region
+var p1UnitTotal =0
+var p2UnitTotal = 0
+var p3UnitTotal = 0
+var p4UnitTotal = 0
 func start(inputX,inputY,altitude,biome) -> float:
 	cartX = inputX
 	cartY = inputY
@@ -54,6 +59,7 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_released("click"):
 		if highlight == true:
 			LastSelectedTile.lastSelectedTile = self
+			get_parent().updateInfo(self)
 		if highlight == true and select != true:
 			select = true
 		else:
@@ -111,7 +117,21 @@ func addUnit(unit):
 			item.level = i	
 			
 	unit.tile=self
-
+	p1UnitTotal = 0
+	p2UnitTotal = 0
+	p3UnitTotal = 0
+	p4UnitTotal = 0
+	for group in units:
+		for item in group:
+			if item.player == 1:
+				p1UnitTotal+=1
+			if item.player == 2:
+				p2UnitTotal+=1
+			if item.player == 3:
+				p3UnitTotal+=1
+			if item.player == 4:
+				p4UnitTotal+=1
+		
 func removeUnit(unit):
 	var i=-1
 	var j=-1
@@ -122,7 +142,20 @@ func removeUnit(unit):
 			if item == unit:
 				units[i].pop_at(j)
 	unit.queue_free()
-	
+	p1UnitTotal = 0
+	p2UnitTotal = 0
+	p3UnitTotal = 0
+	p4UnitTotal = 0
+	for group in units:
+		for item in group:
+			if item.player == 1:
+				p1UnitTotal+=1
+			if item.player == 2:
+				p2UnitTotal+=1
+			if item.player == 3:
+				p3UnitTotal+=1
+			if item.player == 4:
+				p4UnitTotal+=1
 func battle():
 	var combatantPlayers = []
 	var combatantUnits = []
