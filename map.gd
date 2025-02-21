@@ -182,8 +182,7 @@ func endTurn():
 				p3sum+=tile.p3UnitTotal
 				p4sum+=tile.p4UnitTotal
 			###Captured?
-			#player 1 capture:
-			if p1sum+p2sum+p3sum+p4sum<=1:
+			if p1sum+p2sum+p3sum+p4sum<=region[-1]*2:
 				if p1sum >= region[-1]:
 					capture(1,region)
 				if p2sum >= region[-1]:
@@ -198,7 +197,7 @@ func endTurn():
 				for value in values:
 					if value > largest:
 						largest = value	
-				capture(largest,region)
+				capture(values.find(largest),region)
 	if Turn.turn < PlayerCount.playerCount:
 		Turn.turn += 1
 	else:
@@ -206,63 +205,50 @@ func endTurn():
 
 func capture(player,region):
 	print("captured",player,region)
+	if player == 1:
+		for tile in region:
+			if tile is Node:
+				if player == 1:
+					tile.modulate = Color(155,0,0)
+				if player == 2:
+					tile.modulate = Color(0,155,0)
+				if player == 3:
+					tile.modulate = Color(0,0,155)
+				if player == 4:
+					tile.modulate = Color(155, 134, 0)
 func findAdjacent(tile):
 	#Finds tiles adjacent to the input tile
 	var x = tile.cartX
 	var y = tile.cartY
 	var tiles = []
-	#top [0]
-	if y<size-1:
-		tiles.append(tileMap[x][y+1])
-	else:
-		tiles.append(0)
-	#top right [1]
-	if y<size-1 and x<size-1:
-		tiles.append(tileMap[x+1][y+1])
-	else:
-		tiles.append(0)
-	#right[2]
-	if x < size - 1:
-		tiles.append(tileMap[x + 1][y])
-	else:
-		tiles.append(0)
-	if x<size-1 and y >0:
-		tiles.append(tileMap[x+1][y-1])
-	else:
-		tiles.append(0)
-	if y>0:
-		tiles.append(tileMap[x][y-1])
-	else:
-		tiles.append(0)
-	if x >0 and y>0:
-		tiles.append(tileMap[x-1][y-1])
-	else:
-		tiles.append(0)
-	if x>0:
-		tiles.append(tileMap[x-1][y])
-	else:
-		tiles.append(0)
-	if x>0 and y<size-1:
-		tiles.append(tileMap[x-1][y+1])
-	else:
-		tiles.append(0)
 	
-	return(tiles)
+	var directions =[  #[x,y] displacement from tile
+		[0,1],#top
+		[1,1],#top right
+		[1,0],#right
+		[1,-1],#bottom right
+		[0,-1],#bottom
+		[-1,-1],#bottom left
+		[-1,0],#left
+		[-1,1]#top left	
+	]
+	for direction in directions:
+		var newX = x + direction[0]
+		var newY = y + direction[1]
+		if newX >=0 and newX < size and newY < size: #checks coordinates exist
+			tiles.append(tileMap[newX][newY])
+		else:
+			tiles.append(0)
+	return tiles
+
 
 func isBorder(check,biome):
 
 	if check is Array:
 		for item in check:
-			#print("list")
 			if not(item is not int and item.altitude >= 75 and item.biomeValue!=biome):
 				return false
 		return true
-	#if check is not int:
-		#print("single")
-	#if check is not int and check.altitude >= 75 and check.biomeValue != biome:
-	#	return true
-	#else:
-	#	return false
 
 	#return true
 #Camera zoom func
