@@ -4,11 +4,11 @@ extends Node2D
 var noiseValue
 var random=RandomNumberGenerator.new()
 var noise=FastNoiseLite.new()
-var biomeNoise = FastNoiseLite.new()            
+var regionNoise = FastNoiseLite.new()            
 var tileMap = []
 var seed = random.randi_range(1,1000000)
-var debugString = "Seed: %s \nPos: %s , %s \nAltitude: %s \nBiome: %s "
-var size = 10
+var debugString = "Seed: %s \nPos: %s , %s \nAltitude: %s \nregion: %s "
+var size = 20
 var regionMap = []
 var tileScene = load("res://tile.tscn")
 var testUnit
@@ -21,27 +21,26 @@ var units=[]
 var waiting = false
 var turnHandler
 var border = true
-func getBiome(i,j,save) -> float:
-	biomeNoise.seed = seed
-	biomeNoise.frequency=0.007
-	biomeNoise.noise_type=FastNoiseLite.TYPE_CELLULAR
-	biomeNoise.cellular_distance_function=FastNoiseLite.DISTANCE_EUCLIDEAN
-	biomeNoise.cellular_return_type=FastNoiseLite.RETURN_CELL_VALUE
-	biomeNoise.cellular_jitter=1
-	biomeNoise.fractal_octaves=1
+func getregion(i,j,save) -> float:
+	regionNoise.seed = seed
+	regionNoise.frequency=0.007
+	regionNoise.noise_type=FastNoiseLite.TYPE_CELLULAR
+	regionNoise.cellular_distance_function=FastNoiseLite.DISTANCE_EUCLIDEAN
+	regionNoise.cellular_return_type=FastNoiseLite.RETURN_CELL_VALUE
+	regionNoise.cellular_jitter=1
+	regionNoise.fractal_octaves=1
 	
 	if save == true:
 		var img = Image.new()
-		img = biomeNoise.get_image(340,340)
+		img = regionNoise.get_image(340,340)
 		img.save_png("noise.png")
 		print("saved")
-	return abs(biomeNoise.get_noise_2d(i*20,j*20) *100)
+	return abs(regionNoise.get_noise_2d(i*20,j*20) *100)
 
 
+	$label.add_theme_font_size_override("normal_font_size",100)
 
 func _ready() -> void:
-	$label.add_theme_font_size_override("normal_font_size",100)
-	
 	noise.noise_type = FastNoiseLite.TYPE_SIMPLEX
 	noise.seed = seed
 	noise.frequency = 0.0005
@@ -60,32 +59,31 @@ func _ready() -> void:
 	for i in range(size):
 		for j in range(size):
 			noiseValue = abs(noise.get_noise_2d(i*100,j*100) * 2 - 1)
-			
 			var tile = tileScene.instantiate()
-			var biomeValue = getBiome(i,j,false)
 			add_child(tile)
-			if animate:
-				await get_tree().process_frame
-			tile.altitude=tile.start(i,j,noiseValue,biomeValue)
+			await get_tree().process_frame
 			tileMap[i][j] = tile
-	
+			var regionValue = getregion(i,j,false)
+			tile.altitude=tile.start(i,j,noiseValue,regionValue)
+
 	#find regions
 	var values = []
 	var count = 0
 	var solvedTiles = []
 	for row in tileMap:
 		for tile in row:
-			if tile.biomeValue not in values:
-				var region = tile.biomeValue
+			if tile.regionValue not in values:
+				var region = tile.regionValue
 				values.append(region)
 				regionMap.append([region])
 				#print(region)
 				var colour = Color(random.randf_range(0,1)/1.5,random.randf_range(0,1),random.randf_range(0,1)/3)
 				for checkRow in tileMap:
 					for checkTile in checkRow:
-						if checkTile.biomeValue == region and checkTile not in solvedTiles:
+						if checkTile.regionValue == region and checkTile not in solvedTiles:
 							if checkTile.altitude > 74:
-								checkTile.get_node("Sprite2D").modulate = colour
+								pass
+								#checkTile.get_node("Sprite2D").modulate = colour
 							solvedTiles.append(checkTile)
 							regionMap[count].append(checkTile)
 							checkTile.region = count
@@ -99,58 +97,58 @@ func _ready() -> void:
 		for row in tileMap:
 			for tile in row:
 				if tile.altitude >= 75:
-					var biome = tile.biomeValue
+					var region = tile.regionValue
 					var adjacent = findAdjacent(tile)
 	
 					
 					#full border
-					if isBorder(([adjacent[0],adjacent[2],adjacent[4],adjacent[6]]),biome):
+					if isBorder(([adjacent[0],adjacent[2],adjacent[4],adjacent[6]]),region):
 						tile.get_node("Sprite2D").texture = load("res://sprites/grassTileAllBorder.png")
 					#threes
-					elif isBorder(([adjacent[0],adjacent[2],adjacent[4]]),biome):
+					elif isBorder(([adjacent[0],adjacent[2],adjacent[4]]),region):
 						tile.get_node("Sprite2D").texture = load("res://sprites/grassTileNotLeftBorder.png")
-					elif isBorder(([adjacent[2],adjacent[4],adjacent[6]]),biome):
+					elif isBorder(([adjacent[2],adjacent[4],adjacent[6]]),region):
 						tile.get_node("Sprite2D").texture = load("res://sprites/grassTileNotDownBorder.png")
-					elif isBorder(([adjacent[4],adjacent[6],adjacent[0]]),biome):
+					elif isBorder(([adjacent[4],adjacent[6],adjacent[0]]),region):
 						tile.get_node("Sprite2D").texture = load("res://sprites/grassTileNotRightBorder.png")
-					elif isBorder(([adjacent[6],adjacent[0],adjacent[2]]),biome):
+					elif isBorder(([adjacent[6],adjacent[0],adjacent[2]]),region):
 						tile.get_node("Sprite2D").texture = load("res://sprites/grassTileNotUpBorder.png")
 					#twos
-					elif isBorder(([adjacent[0],adjacent[2]]),biome):
+					elif isBorder(([adjacent[0],adjacent[2]]),region):
 						tile.get_node("Sprite2D").texture = load("res://sprites/grassTileDownRightBorder.png")
-					elif isBorder(([adjacent[2],adjacent[4]]),biome):
+					elif isBorder(([adjacent[2],adjacent[4]]),region):
 						tile.get_node("Sprite2D").texture = load("res://sprites/grassTileUpLeftBorder.png")
-					elif isBorder(([adjacent[4],adjacent[6]]),biome):
+					elif isBorder(([adjacent[4],adjacent[6]]),region):
 						tile.get_node("Sprite2D").texture = load("res://sprites/grassTileUpRightBorder.png")
-					elif isBorder(([adjacent[6],adjacent[0]]),biome):
+					elif isBorder(([adjacent[6],adjacent[0]]),region):
 						tile.get_node("Sprite2D").texture = load("res://sprites/grassTileDownLeftBorder.png")
-					elif isBorder(([adjacent[0],adjacent[4]]),biome):
+					elif isBorder(([adjacent[0],adjacent[4]]),region):
 						tile.get_node("Sprite2D").texture = load("res://sprites/grassTileUpDownBorder.png")
-					elif isBorder(([adjacent[2],adjacent[6]]),biome):
+					elif isBorder(([adjacent[2],adjacent[6]]),region):
 						tile.get_node("Sprite2D").texture = load("res://sprites/grassTileLeftRightBorder.png")
 		
 					#ones
-					elif isBorder([adjacent[4]],biome):
+					elif isBorder([adjacent[4]],region):
 							tile.get_node("Sprite2D").texture = load("res://sprites/grassTileUpBorder.png")
 	
-					elif isBorder([adjacent[2]],biome):
+					elif isBorder([adjacent[2]],region):
 							tile.get_node("Sprite2D").texture = load("res://sprites/grassTileRightBorder.png")
 	
 	
-					elif isBorder([adjacent[0]],biome):
+					elif isBorder([adjacent[0]],region):
 							tile.get_node("Sprite2D").texture = load("res://sprites/grassTileDownBorder.png")
 	
-					elif isBorder([adjacent[6]],biome):
+					elif isBorder([adjacent[6]],region):
 							tile.get_node("Sprite2D").texture = load("res://sprites/grassTileLeftBorder.png")
 					#if animate:
 						#await get_tree().process_frame
 					
 	######Init starting units
-	var tile = tileMap[random.randf_range(0,size-1)][random.randi_range(0,size-1)]
-	var unit = unitScene.instantiate()
-	unit.tile=tile
-	add_child(unit)
-	units.append(unit)
+	#var tile = tileMap[random.randf_range(0,size-1)][random.randi_range(0,size-1)]
+	#var unit = unitScene.instantiate()
+	#unit.tile=tile
+	#add_child(unit)
+	#units.append(unit)
 	
 	
 	####UI ELEMENTS
@@ -242,11 +240,11 @@ func findAdjacent(tile):
 	return tiles
 
 
-func isBorder(check,biome):
+func isBorder(check,region):
 
 	if check is Array:
 		for item in check:
-			if not(item is not int and item.altitude >= 75 and item.biomeValue!=biome):
+			if not(item is not int and item.altitude >= 75 and item.regionValue!=region):
 				return false
 		return true
 
@@ -311,11 +309,11 @@ func _on_test_pressed() -> void:
 #					for tile in row:
 #						tile.position.y = tile.isoY
 ##						if tile.highlight == true:
-#							$label.text = debugString % [seed,tile.cartX,tile.cartY,tile.altitude,tile.biomeValue]
+#							$label.text = debugString % [seed,tile.cartX,tile.cartY,tile.altitude,tile.regionValue]
 #						if tile.select == true and not(waiting):
-#							for biomeGroup in regionMap:
-#								if biomeGroup[0] == tile.biomeValue:
-#									for target in biomeGroup:
+#							for regionGroup in regionMap:
+#								if regionGroup[0] == tile.regionValue:
+#									for target in regionGroup:
 #										if target is not float:
 #											if target.altitude >75:
 #												target.position.y = target.isoY - 20
